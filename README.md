@@ -11,6 +11,15 @@ A [Day.js](https://github.com/iamkun/dayjs) plugin that allows you to work with 
 
 # Getting Started
 
+## Special Version
+- add `isRealBusinessTime` function compared to the official v1.0.4
+    ```
+    expect(dayjs('2021-02-11 17:00:00').isRealBusinessTime()).toBe(false);
+    ```
+    ```
+    expect(dayjs('2021-02-11 17:00:00').isBusinessTime()).toBe(true);
+    ```
+
 ## Table of Contents
 
 * [Setup](#setup)
