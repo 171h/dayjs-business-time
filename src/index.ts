@@ -8,7 +8,7 @@ import dayjs, {
   BusinessUnitType,
   Dayjs,
 } from 'dayjs';
-import '../types'
+// import '../types'
 
 const DEFAULT_WORKING_HOURS = {
   sunday: null,
