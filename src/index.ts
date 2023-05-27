@@ -160,6 +160,19 @@ const businessTime = (
     });
   }
 
+  function getRealCurrentBusinessTimeSegment(date) {
+    const businessSegments = getBusinessTimeSegments(date);
+
+    if (!businessSegments?.length) {
+      return false;
+    }
+
+    return businessSegments.find((businessSegment) => {
+      const { start, end } = businessSegment;
+      return date.isSameOrAfter(start) && date.isBefore(end);
+    });
+  }
+
   function isBusinessTime() {
     return !!getCurrentBusinessTimeSegment(this);
   }
@@ -168,16 +181,7 @@ const businessTime = (
    * The last business time is not included in the business time
    */
   function isRealBusinessTime() {
-    const businessSegments = getBusinessTimeSegments(this);
-
-    if (!businessSegments?.length) {
-      return false;
-    }
-
-    return !!businessSegments.find((businessSegment) => {
-      const { start, end } = businessSegment;
-      return this.isSameOrAfter(start) && this.isBefore(end);
-    });
+    return !!getRealCurrentBusinessTimeSegment(this);
   }
 
   function nextBusinessTime() {
@@ -239,8 +243,8 @@ const businessTime = (
     }
   }
 
-  function addBusinessMinutes(minutesToAdd: number): Dayjs {
-    return addOrSubtractBusinessMinutes(this, minutesToAdd);
+  function addBusinessMinutes(minutesToAdd: number, endTimeNotIncluded?: boolean): Dayjs {
+    return addOrSubtractBusinessMinutes(this, minutesToAdd, 'add', endTimeNotIncluded);
   }
 
   function addBusinessHours(hoursToAdd: number): Dayjs {
@@ -268,14 +272,14 @@ const businessTime = (
     day: Dayjs,
     numberOfMinutes: number,
     action: 'add' | 'subtract' = 'add',
+    endTimeNotIncluded = false,
   ): Dayjs {
     let date =
       action === 'add' ? day.nextBusinessTime() : day.lastBusinessTime();
 
     while (numberOfMinutes) {
-      const segment = getCurrentBusinessTimeSegment(
-        date,
-      ) as BusinessTimeSegment;
+      const segment = !endTimeNotIncluded ? getCurrentBusinessTimeSegment(
+        date) : getCurrentBusinessTimeSegment(date ) as BusinessTimeSegment;
 
       if (!segment) {
         date =
@@ -306,8 +310,8 @@ const businessTime = (
     return date;
   }
 
-  function subtractBusinessMinutes(minutesToSubtract: number): Dayjs {
-    return addOrSubtractBusinessMinutes(this, minutesToSubtract, 'subtract');
+  function subtractBusinessMinutes(minutesToSubtract: number, endTimeNotIncluded?: boolean): Dayjs {
+    return addOrSubtractBusinessMinutes(this, minutesToSubtract, 'subtract', endTimeNotIncluded);
   }
 
   function subtractBusinessHours(hoursToSubtract: number): Dayjs {
