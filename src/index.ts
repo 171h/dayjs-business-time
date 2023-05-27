@@ -278,16 +278,19 @@ const businessTime = (
       action === 'add' ? day.nextBusinessTime() : day.lastBusinessTime();
 
     while (numberOfMinutes) {
-      const segment = !endTimeNotIncluded ? getCurrentBusinessTimeSegment(
-        date) : getCurrentBusinessTimeSegment(date ) as BusinessTimeSegment;
-
+      const segment = getCurrentBusinessTimeSegment(
+        date) as BusinessTimeSegment;
+      
       if (!segment) {
         date =
           action === 'add' ? date.nextBusinessTime() : date.lastBusinessTime();
         continue;
       }
 
-      const { start, end } = segment;
+      let { start, end } = segment;
+      if (endTimeNotIncluded) {
+        end = end.subtract(1, 'minute');
+      }
 
       const compareBaseDate = action === 'add' ? end : date;
       const compareDate = action === 'add' ? date : start;

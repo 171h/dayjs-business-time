@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import businessTime from '../src';
+import * as all from '../types'
 
 describe('Add Business Minutes', () => {
   beforeAll(() => {
@@ -60,6 +61,26 @@ describe('Add Business Minutes', () => {
     const expected = dayjs('2021-06-04 09:05:00');
 
     const newDate = date.addBusinessMinutes(10);
+
+    expect(newDate).toBeDefined();
+    expect(newDate).toStrictEqual(expected);
+  });
+
+  it('should add 15 business minutes get lastBusinessMinute', () => {
+    const date = dayjs('2021-06-02 17:45:00');
+    const expected = dayjs('2021-06-02 18:00:00');
+
+    const newDate = date.addBusinessMinutes(15);
+
+    expect(newDate).toBeDefined();
+    expect(newDate).toStrictEqual(expected);
+  });
+
+  it('should add 15 business minutes get next day firstBusinessMinute', () => {
+    const date = dayjs('2021-06-02 17:45:00');
+    const expected = dayjs('2021-06-04 09:00:00');
+
+    const newDate = date.addBusinessMinutes(15, true);
 
     expect(newDate).toBeDefined();
     expect(newDate).toStrictEqual(expected);
