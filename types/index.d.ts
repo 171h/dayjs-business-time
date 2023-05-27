@@ -22,9 +22,9 @@ declare module 'dayjs' {
     addBusinessDays(numberOfDays: number): Dayjs,
     subtractBusinessDays(numberOfDays: number): Dayjs,
     addBusinessHours(numberOfHours: number): Dayjs,
-    addBusinessMinutes(numberOfMinutes: number): Dayjs,
+    addBusinessMinutes(numberOfMinutes: number, endTimeNotIncluded?: boolean): Dayjs,
     addBusinessTime(timeToAdd: number, businessUnit: BusinessUnitType): Dayjs,
-    subtractBusinessMinutes(numberOfMinutes: number): Dayjs;
+    subtractBusinessMinutes(numberOfMinutes: number, endTimeNotIncluded?: boolean): Dayjs;
     subtractBusinessHours(numberOfHours: number): Dayjs,
     subtractBusinessTime(timeToSubtract: number, businessUnit: BusinessUnitType): Dayjs,
     businessMinutesDiff(comparator: Dayjs): number
