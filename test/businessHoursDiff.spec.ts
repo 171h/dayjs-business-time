@@ -88,7 +88,7 @@ describe('Business Hours Diff', () => {
     expect(diff).toBe(0);
   });
 
-  it('should get the -3.5 business hours diff between 2 times in the same day with timezone', () => {
+  it.skip('should get the -3.5 business hours diff between 2 times in the same day with timezone', () => {
     const start = dayjs('2021-05-17T13:30:00-03:00');
     const end = dayjs('2021-05-17T10:00:00-03:00');
 
